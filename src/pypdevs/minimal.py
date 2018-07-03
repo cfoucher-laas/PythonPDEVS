@@ -98,7 +98,7 @@ class CoupledDEVS(BaseDEVS):
 
 class RootDEVS(object):
     def __init__(self, components):
-        from schedulers.schedulerAuto import SchedulerAuto as Scheduler
+        from schedulers.schedulerHS import SchedulerHS as Scheduler
         self.component_set = components
         self.time_next = float('inf')
         self.scheduler = Scheduler(self.component_set, 1e-6, len(self.component_set))
