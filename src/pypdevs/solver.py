@@ -255,7 +255,7 @@ class Solver(object):
         # self.transitioning are the models that must transition
         if len(imminent) > 1:
             # Perform all selects
-            imminent.sort()
+            imminent.sort(key=lambda i: i.getModelFullName())
             pending = imminent
             level = 1
             while len(pending) > 1:
