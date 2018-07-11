@@ -22,6 +22,7 @@ In this section, we will continue using the model from the previous section wher
 .. toctree::
    :maxdepth: 1
 
+   Tracers <tracers_all>
    Reinitialisation <reinitialisation>
    Continuing a simulation <continuing>
    Minimal simulation kernel <minimal>
