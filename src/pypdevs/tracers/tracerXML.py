@@ -35,6 +35,12 @@ class TracerXML(object):
         self.server = server
         self.uid = uid
 
+    def write_py23(self, string):
+        try:
+            self.xml_file.write(string)
+        except TypeError:
+            self.xml_file.write(string.encode())
+
     def startTracer(self, recover):
         """
         Starts up the tracer
@@ -48,13 +54,13 @@ class TracerXML(object):
             self.xml_file = open(self.filename, 'a+')
         else:
             self.xml_file = open(self.filename, 'w')
-        self.xml_file.write(("<?xml version=\"1.0\"?>\n" + "<trace>\n").encode())
+        self.write_py23("<?xml version=\"1.0\"?>\n" + "<trace>\n")
 
     def stopTracer(self):
         """
         Stop the tracer
         """
-        self.xml_file.write("</trace>")
+        self.write_py23("</trace>")
         self.xml_file.flush()
 
     def trace(self, model_name, timestamp, event_kind, port_info, xml_state, str_state):
@@ -68,13 +74,13 @@ class TracerXML(object):
         :param xml_state: XML representation of the state
         :param str_state: normal string representation of the state
         """
-        self.xml_file.write(("<event>\n"
+        self.write_py23("<event>\n"
                           + "<model>" + model_name + "</model>\n"
                           + "<time>" + str(timestamp[0]) + "</time>\n"
                           + "<kind>" + event_kind + "</kind>\n"
                           + port_info
                           + "<state>\n"+ xml_state + "<![CDATA[" + str_state + "]]>\n</state>\n"
-                          + "</event>\n").encode())
+                          + "</event>\n")
 
     def traceInternal(self, aDEVS):
         """
