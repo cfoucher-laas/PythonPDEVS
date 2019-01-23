@@ -93,7 +93,7 @@ class TracerXML(object):
             if (aDEVS.OPorts[I] in aDEVS.my_output and 
                     aDEVS.my_output[aDEVS.OPorts[I]] is not None):
                 port_info += '<port name="' + aDEVS.OPorts[I].getPortName() + '" category="O">\n'
-                for j in aDEVS.my_output[aDEVS.OPorts[I]]:
+                for j in aDEVS.my_output.get(aDEVS.OPorts[I], []):
                     port_info += "<message>" + str(j) + "</message>\n</port>\n"
         runTraceAtController(self.server, 
                              self.uid, 
@@ -114,7 +114,7 @@ class TracerXML(object):
         port_info = ""
         for I in range(len(aDEVS.IPorts)):
             port_info += '<port name="' + aDEVS.IPorts[I].getPortName() + '" category="I">\n'
-            for j in aDEVS.my_input[aDEVS.IPorts[I]]:
+            for j in aDEVS.my_input.get(aDEVS.IPorts[I], []):
                 port_info += "<message>" + str(j) + "</message>\n</port>\n"
         runTraceAtController(self.server, 
                              self.uid, 
@@ -135,7 +135,7 @@ class TracerXML(object):
         port_info = ""
         for I in range(len(aDEVS.IPorts)):
             port_info += '<port name="' + aDEVS.IPorts[I].getPortName() + '" category="I">\n'
-            for j in aDEVS.my_input[aDEVS.IPorts[I]]:
+            for j in aDEVS.my_input.get(aDEVS.IPorts[I], []):
                 port_info += "<message>" + str(j) + "</message>\n</port>\n"
         runTraceAtController(self.server, 
                              self.uid, 
@@ -150,7 +150,7 @@ class TracerXML(object):
         for I in range(len(aDEVS.OPorts)):
             if aDEVS.OPorts[I] in aDEVS.my_output:
                 port_info += '<port name="' + aDEVS.OPorts[I].getPortName() + '" category="O">\n'
-                for j in aDEVS.my_output[aDEVS.OPorts[I]]:
+                for j in aDEVS.my_output.get(aDEVS.OPorts[I], []):
                     port_info += "<message>" + str(j) + "</message>\n</port>\n"
         runTraceAtController(self.server, 
                              self.uid, 
