@@ -94,7 +94,8 @@ class TracerXML(object):
                     aDEVS.my_output[aDEVS.OPorts[I]] is not None):
                 port_info += '<port name="' + aDEVS.OPorts[I].getPortName() + '" category="O">\n'
                 for j in aDEVS.my_output.get(aDEVS.OPorts[I], []):
-                    port_info += "<message>" + str(j) + "</message>\n</port>\n"
+                    port_info += "<message>" + str(j) + "</message>\n"
+                port_info += "</port>\n"
         runTraceAtController(self.server, 
                              self.uid, 
                              aDEVS, 
@@ -115,7 +116,8 @@ class TracerXML(object):
         for I in range(len(aDEVS.IPorts)):
             port_info += '<port name="' + aDEVS.IPorts[I].getPortName() + '" category="I">\n'
             for j in aDEVS.my_input.get(aDEVS.IPorts[I], []):
-                port_info += "<message>" + str(j) + "</message>\n</port>\n"
+                port_info += "<message>" + str(j) + "</message>\n"
+            port_info += "</port>\n"
         runTraceAtController(self.server, 
                              self.uid, 
                              aDEVS, 
@@ -136,7 +138,8 @@ class TracerXML(object):
         for I in range(len(aDEVS.IPorts)):
             port_info += '<port name="' + aDEVS.IPorts[I].getPortName() + '" category="I">\n'
             for j in aDEVS.my_input.get(aDEVS.IPorts[I], []):
-                port_info += "<message>" + str(j) + "</message>\n</port>\n"
+                port_info += "<message>" + str(j) + "</message>\n"
+            port_info += "</port>\n"
         runTraceAtController(self.server, 
                              self.uid, 
                              aDEVS, 
@@ -151,7 +154,8 @@ class TracerXML(object):
             if aDEVS.OPorts[I] in aDEVS.my_output:
                 port_info += '<port name="' + aDEVS.OPorts[I].getPortName() + '" category="O">\n'
                 for j in aDEVS.my_output.get(aDEVS.OPorts[I], []):
-                    port_info += "<message>" + str(j) + "</message>\n</port>\n"
+                    port_info += "<message>" + str(j) + "</message>\n"
+                port_info += "</port>\n"
         runTraceAtController(self.server, 
                              self.uid, 
                              aDEVS, 
