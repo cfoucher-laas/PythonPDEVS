@@ -144,7 +144,9 @@ class DEVSException(Exception):
         """
         String representation of the exception
         """
-        return "DEVS Exception: " + str(self.message)
+        if hasattr(self, "message"):
+            return "DEVS Exception: " + str(self.message)
+        return "DEVS Exception: " + str(self.args[0])
 
 class QuickStopException(Exception):
     """

@@ -15,7 +15,10 @@
 
 from pypdevs.simulator import Simulator
 
-from Tkinter import *
+try:
+    from Tkinter import *
+except ImportError:
+    from tkinter import *
 from trafficLightModel import *
 
 isBlinking = None

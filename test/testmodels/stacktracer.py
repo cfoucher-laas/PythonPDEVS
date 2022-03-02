@@ -73,7 +73,7 @@ class TraceDumper(threading.Thread):
             pass
     
     def stacktraces(self):
-        fout = file(self.fpath,"wb+")
+        fout = open(self.fpath,"wb+")
         try:
             fout.write(stacktraces())
         finally:
@@ -97,5 +97,5 @@ def trace_stop():
     if _tracer is None:
         raise Exception("Not tracing, cannot stop.")
     else:
-        _trace.stop()
-        _trace = None
+        _tracer.stop()
+        _tracer = None

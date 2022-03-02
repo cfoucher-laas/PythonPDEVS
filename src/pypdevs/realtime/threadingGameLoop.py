@@ -16,6 +16,9 @@
 import pypdevs.accurate_time as time
 from threading import Lock
 
+_GLLOCK = Lock()
+
+
 class ThreadingGameLoop(object):
     """
     Game loop subsystem for realtime simulation. Time will only progress when a *step* call is made.
@@ -30,9 +33,10 @@ class ThreadingGameLoop(object):
         """
         Perform a step in the simulation. Actual processing is done in a seperate thread.
         """
-        if time.time() >= self.next_event:
-            self.next_event = float('inf')
-            getattr(self, "func")()
+        with _GLLOCK:  # Thread-safety
+            if time.time() >= self.next_event:
+                self.next_event = float('inf')
+                getattr(self, "func")()
         
     def wait(self, delay, func):
         """

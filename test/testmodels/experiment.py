@@ -185,7 +185,10 @@ elif mn.startswith("realtime"):
     elif mn.startswith("realtime_loop"):
         args["setRealTimePlatformGameLoop"] = []
     elif mn.startswith("realtime_tk"):
-        from Tkinter import *
+        try:
+            from Tkinter import *
+        except ImportError:
+            from tkinter import *
         myTk = Tk()
         args["setRealTimePlatformTk"] = [myTk]
     else:
