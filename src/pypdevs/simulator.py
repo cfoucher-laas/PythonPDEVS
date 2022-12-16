@@ -47,6 +47,8 @@ except ImportError:
 try:
     import Queue as Queue
 except ImportError:
+    # Fix for parallel DEVS?
+    # from multiprocessing import Queue
     import queue as Queue
 
 def local(sim):
@@ -69,7 +71,7 @@ def loadCheckpoint(name):
     """
     listdir = os.listdir('.')
     if str(name) + "_SIM.pdc" not in listdir:
-        # Simulator object not even found, don't bother continueing
+        # Simulator object not even found, don't bother continuing
         #assert info("Not even a SIM file was found for the requested name, giving up already")
         return
     try:
