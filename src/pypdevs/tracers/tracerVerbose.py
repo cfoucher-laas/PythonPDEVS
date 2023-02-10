@@ -13,10 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from pypdevs.tracers.tracerBase import BaseTracer
 from pypdevs.util import runTraceAtController
 import sys
 
-class TracerVerbose(object):
+class TracerVerbose(BaseTracer):
     """
     A tracer for simple verbose output
     """
@@ -28,13 +29,12 @@ class TracerVerbose(object):
         :param server: the server to make remote calls on
         :param filename: file to save the trace to, can be None for output to stdout
         """
+        super(TracerVerbose, self).__init__(uid, server)
         if server.getName() == 0:
             self.filename = filename
         else:
             self.filename = None
-        self.server = server
         self.prevtime = (-1, -1)
-        self.uid = uid
 
     def startTracer(self, recover):
         """

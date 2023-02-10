@@ -33,13 +33,15 @@ class Tracers(object):
         :param server: the server object to be able to make remote calls
         :param recover: whether or not this is a recovered registration (used during checkpointing)
         """
+        loc = {}
         try:
-            exec("from pypdevs.tracers.%s import %s" % tracer[0:2])
+            exec("from pypdevs.tracers.%s import %s" % (tracer[0], tracer[1]), {}, loc)
         except:
-            exec("from %s import %s" % tracer[0:2])
-        self.tracers.append(eval("%s(%i, server, *%s)" % (tracer[1], 
-                                                          self.uid, 
-                                                          tracer[2])))
+            exec("from %s import %s" % (tracer[0], tracer[1]), {}, loc)
+        self.tracers.append(loc[tracer[1]](self.uid, server, *tracer[2]))
+        # self.tracers.append(eval("%s(%i, server, *%s)" % (tracer[1],
+        #                                                   self.uid,
+        #                                                   tracer[2])))
         self.tracers_init.append(tracer)
         self.uid += 1
         self.tracers[-1].startTracer(recover)

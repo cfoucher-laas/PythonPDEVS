@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from pypdevs.tracers.tracerBase import BaseTracer
 from pypdevs.util import runTraceAtController, toStr, DEVSException
 from math import floor
 
@@ -36,7 +37,7 @@ class VCDRecord(object):
         # Set to None to make sure that it will be changed
         self.bit_size = None
 
-class TracerVCD(object):
+class TracerVCD(BaseTracer):
     """
     A tracer for VCD output. Should only be used for binary signals!
     """
@@ -48,12 +49,11 @@ class TracerVCD(object):
         :param server: the server to make remote requests on
         :param filename: file to save the trace to
         """
+        super(TracerVCD, self).__init__(uid, server)
         if server.getName() == 0:
             self.filename = filename
         else:
             self.filename = None
-        self.server = server
-        self.uid = uid
 
     def startTracer(self, recover):
         """
@@ -65,9 +65,9 @@ class TracerVCD(object):
             # Nothing to do here as we aren't the controller
             return
         elif recover:
-            self.vcd_file = open(self.filename, 'a+')
+            self.vcd_file = open(self.filename, 'ab+')
         else:
-            self.vcd_file = open(self.filename, 'w')
+            self.vcd_file = open(self.filename, 'wb')
         self.vcd_var_list = []
         self.vcd_prevtime = 0.0
         self.vcdHeader()
@@ -147,16 +147,16 @@ class TracerVCD(object):
                 if vcd_state[i] == 'b':
                     continue
                 else:
-                    raise DEVSException(("Port %s in model does not carry " +
+                    raise DEVSException(("Port %s in model %s does not carry " +
                                         "a binary signal\n" +
-                                        "VCD exports require a binary signal," +
-                                        "not: ") % (port_name, model_name, vcd_state))
+                                        "VCD exports require a binary signal, " +
+                                        "not: %s") % (port_name, model_name, vcd_state))
             char = vcd_state[i]
             if char not in ["0", "1", "E", "x"]:
-                raise DEVSException(("Port %s in model does not carry " +
+                raise DEVSException(("Port %s in model %s does not carry " +
                                      "a binary signal\n" +
-                                     "VCD exports require a binary signal," +
-                                     "not: ") % (port_name, model_name, vcd_state))
+                                     "VCD exports require a binary signal, " +
+                                     "not: %s") % (port_name, model_name, vcd_state))
         # Find the identifier of this wire
         for i in range(len(self.vcd_var_list)):
             if (self.vcd_var_list[i].model_name == model_name and 

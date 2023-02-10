@@ -13,10 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from pypdevs.tracers.tracerBase import BaseTracer
 from pypdevs.util import runTraceAtController, toStr
-import sys
+import sys, re
 
-class TracerXML(object):
+class TracerXML(BaseTracer):
     """
     A tracer for XML tracing output
     """
@@ -28,12 +29,11 @@ class TracerXML(object):
         :param server: the server to make remote calls on
         :param filename: file to save the trace to
         """
+        super(TracerXML, self).__init__(uid, server)
         if server.getName() == 0:
             self.filename = filename
         else:
             self.filename = None
-        self.server = server
-        self.uid = uid
 
     def write_py23(self, string):
         try:
@@ -103,7 +103,7 @@ class TracerXML(object):
                                 aDEVS.time_last, 
                                 "'IN'", 
                                 toStr(port_info), 
-                                toStr(aDEVS.state.toXML()), 
+                                toStr(TracerXML.toXML(aDEVS.state)),
                                 toStr(aDEVS.state)])
 
     def traceExternal(self, aDEVS):
@@ -125,7 +125,7 @@ class TracerXML(object):
                                 aDEVS.time_last, 
                                 "'EX'", 
                                 toStr(port_info), 
-                                toStr(aDEVS.state.toXML()), 
+                                toStr(TracerXML.toXML(aDEVS.state)),
                                 toStr(aDEVS.state)])
 
     def traceConfluent(self, aDEVS):
@@ -147,7 +147,7 @@ class TracerXML(object):
                                 aDEVS.time_last, 
                                 "'EX'", 
                                 toStr(port_info), 
-                                toStr(aDEVS.state.toXML()), 
+                                toStr(TracerXML.toXML(aDEVS.state)),
                                 toStr(aDEVS.state)])
         port_info = ""
         for I in range(len(aDEVS.OPorts)):
@@ -163,7 +163,7 @@ class TracerXML(object):
                                 aDEVS.time_last, 
                                 "'IN'", 
                                 toStr(port_info), 
-                                toStr(aDEVS.state.toXML()), 
+                                toStr(TracerXML.toXML(aDEVS.state)),
                                 toStr(aDEVS.state)])
 
     def traceInit(self, aDEVS, t):
@@ -180,5 +180,47 @@ class TracerXML(object):
                                 t, 
                                 "'EX'", 
                                 "''", 
-                                toStr(aDEVS.state.toXML()), 
+                                toStr(TracerXML.toXML(aDEVS.state)),
                                 toStr(aDEVS.state)])
+
+    @staticmethod
+    def toXML(state):
+        primitives = {
+            int: "Integer",
+            float: "Float",
+            str: "String"
+        }
+
+        def create_multi_attrib(name, elem):
+            cat = "C"
+            if type(elem) in primitives:
+                cat = "P"
+                type_ = primitives[type(elem)]
+                return "<attribute category=\"%s\"><name>%s</name><type>%s</type><value>%s</value></attribute>" % (
+                cat, name, type_, str(elem))
+            else:
+                type_ = "Unknown"
+                value = TracerXML.toXML(elem)
+                return "<attribute category=\"%s\"><name>%s</name><type>%s</type><value>%s</value></attribute>" % (
+                cat, name, type_, str(value))
+
+        if isinstance(state, (str, int, float)):
+            return "<attribute category=\"P\"><name>state</name><type>%s</type><value>%s</value></attribute>" % (primitives[type(state)], str(state))
+        elif isinstance(state, dict):
+            res = ""
+            for k, v in state.items():
+                name = re.sub("[^a-zA-Z0-9_]", "", k)
+                res += create_multi_attrib(name, v)
+            return "<attribute category=\"C\"><name>state</name><type>Map</type><value>%s</value></attribute>" % res
+        elif isinstance(state, (list, tuple)):
+            res = ""
+            for ix, item in enumerate(state):
+                name = "item-%d" % ix
+                res += create_multi_attrib(name, item)
+            return "<attribute category=\"C\"><name>state</name><type>List</type><value>%s</value></attribute>" % res
+        elif hasattr(state, "toXML"):
+            return state.toXML()
+        elif hasattr(state, "__str__"):
+            return TracerXML.toXML(str(state))
+        return TracerXML.toXML({k: getattr(state, k) for k in dir(state) if not k.startswith("_") and not callable(getattr(state, k))})
+

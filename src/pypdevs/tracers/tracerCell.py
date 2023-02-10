@@ -13,11 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from pypdevs.tracers.tracerBase import BaseTracer
 from pypdevs.util import runTraceAtController, toStr
 from pypdevs.activityVisualisation import visualizeMatrix
 import sys
 
-class TracerCell(object):
+class TracerCell(BaseTracer):
     """
     A tracer for Cell-DEVS style tracing output
     """
@@ -32,12 +33,11 @@ class TracerCell(object):
         :param y_size: the y size of the grid
         :param multifile: whether or not multiple files should be generated for each timestep
         """
+        super(TracerCell, self).__init__(uid, server)
         if server.getName() == 0:
             self.filename = filename
         else:
             self.filename = None
-        self.server = server
-        self.uid = uid
         self.x_size = x_size
         self.y_size = y_size
         self.multifile = multifile
