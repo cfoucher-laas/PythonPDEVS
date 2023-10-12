@@ -675,7 +675,7 @@ class Simulator(object):
             else:
                 gvt = max(self.controller.getGVT(), 0)
             gvt_percentage = int(gvt / finishtime * 100)
-            gvt_length = min(barwidth, gvt_percentage * barwidth / 100)
+            gvt_length = int(min(barwidth, gvt_percentage * barwidth / 100))
             for node in locations:
                 if self.progress_finished:
                     nodetime = float('inf')
@@ -687,16 +687,16 @@ class Simulator(object):
                 s += " |"
                 percentage = int(nodetime / finishtime * 100)
                 s += "#" * gvt_length
-                length = min(barwidth, percentage * barwidth / 100) - gvt_length
+                length = int(min(barwidth, percentage * barwidth / 100) - gvt_length)
                 s += self.fillchar * length
-                s += " " * (barwidth - gvt_length - length)
+                s += " " * int(barwidth - gvt_length - length)
                 if percentage == 100 and self.fillchar != "E":
                     s += "|DONE"
                 elif percentage == 100 and self.fillchar == "E":
                     s += "|FAIL"
                 else:
                     s += "| %2d" % percentage + "%"
-                print(s)
+                print("\r" + s)
             if self.progress_finished:
                 return
         
@@ -705,6 +705,7 @@ class Simulator(object):
         The actual simulation part, this is identical for the 'start from scratch' and 'start from checkpoint' algorithm, thus it was split up
         """
         locations = range(self.server.size)
+        thread = threading.Thread(target=self.showProgress, args=[locations])
         try:
             ## Progress visualisation code
             if self.progress:
@@ -717,8 +718,8 @@ class Simulator(object):
                 #    self.progress = False
                 else:
                     self.progress_finished = False
-                    thread = threading.Thread(target=self.show_progress, 
-                                              args=[locations])
+                    # thread = threading.Thread(target=self.show_progress,
+                    #                           args=[locations])
                     if self.checkpoint_interval < 0:
                         self.progress_event = threading.Event()
                     thread.start()

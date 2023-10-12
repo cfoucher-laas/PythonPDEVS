@@ -64,7 +64,7 @@ class TracerVerbose(BaseTracer):
         """
         string = ""
         if time > self.prevtime:
-            string = ("\n__  Current Time: %10.2f " + "_"*42 + " \n\n") % (time[0])
+            string = ("\n__  Current Time: %10.6f " + "_"*42 + " \n\n") % (time[0])
             self.prevtime = time
         string += "%s\n" % text
         try:
@@ -87,7 +87,7 @@ class TracerVerbose(BaseTracer):
             for msg in aDEVS.my_output.get(aDEVS.OPorts[I], []):
                 text += "\t\t\t\t" + str(msg) + "\n"
         # Don't show the age
-        text += "\t\tNext scheduled internal transition at time %.2f\n" \
+        text += "\t\tNext scheduled internal transition at time %.6f\n" \
                 % (aDEVS.time_next[0])
         runTraceAtController(self.server, 
                              self.uid, 
@@ -114,7 +114,7 @@ class TracerVerbose(BaseTracer):
             for msg in aDEVS.my_output.get(aDEVS.OPorts[I], []):
                 text += "\t\t\t\t" + str(msg) + "\n"
         # Don't show the age
-        text += "\t\tNext scheduled internal transition at time %.2f\n" \
+        text += "\t\tNext scheduled internal transition at time %.6f\n" \
                 % (aDEVS.time_next[0])
         runTraceAtController(self.server, 
                              self.uid, 
@@ -136,7 +136,7 @@ class TracerVerbose(BaseTracer):
                 text += "\t\t\t\t" + str(msg) + "\n"
         text += "\t\tNew State: %s\n" % str(aDEVS.state)
         # Don't show the age
-        text += "\t\tNext scheduled internal transition at time %.2f\n" \
+        text += "\t\tNext scheduled internal transition at time %.6f\n" \
                 % (aDEVS.time_next[0])
         runTraceAtController(self.server, 
                              self.uid, 
@@ -154,7 +154,7 @@ class TracerVerbose(BaseTracer):
         text += "\tINITIAL CONDITIONS in model <%s>\n" % aDEVS.getModelFullName()
         text += "\t\tInitial State: %s\n" % str(aDEVS.state)
         # Don't show the age
-        text += "\t\tNext scheduled internal transition at time %.2f\n" \
+        text += "\t\tNext scheduled internal transition at time %.6f\n" \
                 % (aDEVS.time_next[0])
         runTraceAtController(self.server, 
                              self.uid, 
