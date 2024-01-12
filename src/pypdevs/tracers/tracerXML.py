@@ -188,7 +188,8 @@ class TracerXML(BaseTracer):
         primitives = {
             int: "Integer",
             float: "Float",
-            str: "String"
+            str: "String",
+            bool: "Boolean"
         }
 
         def create_multi_attrib(name, elem):
@@ -204,7 +205,7 @@ class TracerXML(BaseTracer):
                 return "<attribute category=\"%s\"><name>%s</name><type>%s</type><value>%s</value></attribute>" % (
                 cat, name, type_, str(value))
 
-        if isinstance(state, (str, int, float)):
+        if isinstance(state, (str, int, float, bool)):
             return "<attribute category=\"P\"><name>state</name><type>%s</type><value>%s</value></attribute>" % (primitives[type(state)], str(state))
         elif isinstance(state, dict):
             res = ""

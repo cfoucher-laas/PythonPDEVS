@@ -186,8 +186,22 @@ class BaseDEVS(object):
         Get the full model name, including the path from the root
 
         :returns: string -- the fully qualified name of the model
+
+        :raises: AttributeError -- when the model is not fully
+                                    initialized for simulation
         """
         return self.full_name
+
+    def getModelFullNameRec(self):
+        """
+        Get the full model name, including the path from the root,
+        using recursion.
+
+        :returns: string -- the fully qualified name of the model
+        """
+        if self.parent is None:
+            return self.getModelName()
+        return self.parent.getModelFullNameRec() + "." + self.getModelName()
 
 class AtomicDEVS(BaseDEVS):
     """
@@ -835,6 +849,9 @@ class Port(object):
         self.is_input = is_input
         self.z_functions = {}
 
+    def __repr__(self):
+        return "%s (%s)" % (self.type(), self.getPortFullName())
+
     def getPortName(self):
         """
         Returns the name of the port
@@ -849,7 +866,7 @@ class Port(object):
 
         :returns: fully qualified name of the port
         """
-        return "%s.%s" % (self.host_DEVS.getModelFullName(), self.getPortName())
+        return "%s.%s" % (self.host_DEVS.getModelFullNameRec(), self.getPortName())
 
     def type(self):
         """
