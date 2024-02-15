@@ -82,4 +82,4 @@ class ThreadingTkInter(object):
         """
         if not self.last_infinity:
             self.queue.append(None)
-        self.unlock()
+            self.unlock()

@@ -1095,7 +1095,15 @@ class BaseSimulator(Solver):
                 self.threading_backend.wait(wait_time, self.runsim)
                 return True
             try:
-                portname, event_value = interrupt.split(" ")
+                info = interrupt.split(" ")
+                portname = info[0]
+                event_value = " ".join(info[1:])
+                if event_value[0] in "([{":  # also allow tuples, lists or dictionaries
+                    try:
+                        event_value = eval(event_value)
+                    except: pass
+                # event_value = eval(" ".join(info[1:]))
+                # portname, event_value = interrupt.split(" ")
                 event_port = self.portmap[portname]
             except ValueError:
                 # Couldn't split, means we should stop

@@ -15,6 +15,7 @@
 
 from threading import Event, Thread, Lock
 import pypdevs.accurate_time as time
+from pypdevs.infinity import INFINITY
 
 class ThreadingPython(object):
     """
@@ -34,6 +35,8 @@ class ThreadingPython(object):
         :param delay: time to wait
         :param func: the function to call
         """
+        if delay == INFINITY:
+            return
         #NOTE this call has a granularity of 5ms in Python <= 2.7.x in the worst case, so beware!
         #     the granularity seems to be much better in Python >= 3.x
         p = Thread(target=ThreadingPython.callFunc, args=[self, delay, func])
