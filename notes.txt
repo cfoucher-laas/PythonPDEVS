@@ -1,3 +1,11 @@
+Version 2.4.2
+    * General bug fixes to Python 3 support
+    + Allow realtime interrupts to use objects as input
+    + Added a simplistic bare-bone XML trace visualizer w.r.t. Bill Song's (old) work
+    * Made tracers more uniform
+    * Fixed code injection possibilities when using tracers
+    * Fixed thread-safeness
+
 Version 2.4.1
     * Incremental direct connection only done on change
     * Direct connection at startup is the non-incremental one for performance
@@ -16,7 +24,7 @@ Version 2.3.1
     + Added nicer configuration for the optimized, minimal simulation kernel
 
 Version 2.3.0
-    + Added an optimized simulation kernel for sequentiel simulation
+    + Added an optimized simulation kernel for sequential simulation
     * Much faster direct connection algorithm
     * Fixed bug in checkpointing when no state saving was being done
 
