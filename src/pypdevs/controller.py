@@ -51,6 +51,7 @@ class Controller(BaseSimulator):
         self.running_irreversible = None
         self.initial_allocator = None
         self.prev_termination_time = 0.0
+        self.accept_external_input = False
 
     def __setstate__(self, retdict):
         """
@@ -316,6 +317,14 @@ class Controller(BaseSimulator):
         """
         self.termination_condition = termination_condition
         self.termination_time_check = False
+
+    def setAcceptExternalInputs(self, aei):
+        """
+        Sets the controller to accept external inputs.
+        When enabled, the "early-return" of the simulator when all components have an infinite
+        time-advance is ignored.
+        """
+        self.accept_external_input = aei
 
     def findAndPerformRelocations(self, gvt, activities, horizon):
         """

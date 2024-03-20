@@ -210,6 +210,7 @@ class Simulator(object):
         self.setSchedulerActivityHeap()
         self.locations_file = None
         self.allocator = None
+        self.accept_external_input = False
         self.realtime_extra = []
 
         self.model_ids = []
@@ -584,6 +585,7 @@ class Simulator(object):
         self.controller.setDSDEVS(self.dsdevs)
         self.controller.setActivityTracking(self.activity_tracking)
         self.controller.setClassicDEVS(self.classicDEVS)
+        self.controller.setAcceptExternalInputs(self.accept_external_input)
         self.controller.setCellLocationTracer(self.x_size, 
                                               self.y_size, 
                                               self.location_cell_view)

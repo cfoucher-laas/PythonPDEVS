@@ -1092,7 +1092,10 @@ class BaseSimulator(Solver):
             interrupt = self.threading_backend.getInterrupt()
             if interrupt is None:
                 self.realtime_counter = 100
-                self.threading_backend.wait(wait_time, self.runsim)
+                if wait_time == float('inf') and getattr(self, "accept_external_input", False):
+                    self.threading_backend.wait(0.01, self.runsim)
+                else:
+                    self.threading_backend.wait(wait_time, self.runsim)
                 return True
             try:
                 info = interrupt.split(" ")

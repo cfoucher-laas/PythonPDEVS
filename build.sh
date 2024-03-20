@@ -9,7 +9,7 @@ cp install_mpi4py.sh pypdevs/install_mpi4py.sh
 cd doc/sphinx
 rm -r _build/html
 make html
-./rewrite_documentation.sh
+#./rewrite_documentation.sh
 cd ../..
 cp -R doc/sphinx/_build/html/ pypdevs/doc
 cp -R src/ pypdevs/
@@ -18,7 +18,7 @@ rm test/output/*
 cp -R test/ pypdevs/
 cp LICENSE pypdevs/
 cp NOTICE pypdevs/
-mkdir pypdevs/tests/output
+mkdir -p pypdevs/tests/output
 rm pypdevs/src/pypdevs/*.pyc
 rm pypdevs/examples/*/*.pyc
 rm pypdevs/examples/*/*.pyo
@@ -37,3 +37,5 @@ rm -R pypdevs/src/pypdevs/__pycache__
 
 tar -czf pypdevs.tgz pypdevs
 rm -R pypdevs
+
+read -p "Press [Enter] key to continue..."

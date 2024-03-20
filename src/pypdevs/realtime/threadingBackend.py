@@ -51,7 +51,7 @@ class ThreadingBackend(object):
 
     def interrupt(self, value):
         """
-        Interrupt a running wait call.
+        Interrupt a running wait call, overwriting any previous interrupts.
 
         :param value: the value that interrupts
         """

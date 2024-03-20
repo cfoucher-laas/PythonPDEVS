@@ -41,9 +41,9 @@ While examples could be given purely in their formal description, they would not
 To specify this model, we first define the event exchanged between different examples: the Job.
 A job is coded as a class ``Job``.
 It has the attributes ``size`` (i.e., indicative of processing time) and ``creation time`` (i.e., time the event was created, for statistic gathering).
-The ``Job`` class definition is shown next and can de downloaded: :download:`job.py <../examples/queueing/job.py>`.
+The ``Job`` class definition is shown next and can de downloaded: :download:`job.py <../../examples/queueing/job.py>`.
 
-.. literalinclude:: ../examples/queueing/job.py
+.. literalinclude:: ../../examples/queueing/job.py
 
 We now focus on each atomic model seperately, starting at the event generator.
 
@@ -59,9 +59,9 @@ Finally, the output function returns a new customer event with a randomly define
 The job has an attribute containing the time at which it was generated.
 Recall, however, that the output function was invoked before the internal transition, so the current time has not yet been updated by the internal transition.
 Therefore, the output function also has to do this addition, without storing the result in the state (as it cannot write to the state).
-The ``Generator`` class definition is shown next and can de downloaded: :download:`generator.py <../examples/queueing/generator.py>`.
+The ``Generator`` class definition is shown next and can de downloaded: :download:`generator.py <../../examples/queueing/generator.py>`.
 
-.. literalinclude:: ../examples/queueing/generator.py
+.. literalinclude:: ../../examples/queueing/generator.py
 
 Next up is the queue, which is the most interesting component of the simulation, as it is the part we wish to analyze.
 The ``Queue`` implementation is similar in structure to the ``Generator``.
@@ -83,9 +83,9 @@ An important consideration in this model is the ``remaining\_time`` counter, whi
 We can't simply put the processing time of events in the time advance, as interrupts could happen during this time.
 When an interrupt happens (e.g., another event arrives), the time advance is invoked again, and would return the total processing time, instead of the remaining time to process the event.
 To solve this problem, we maintain a counter that explicitly gets decremented when an external interrupt happens.
-The ``Queue`` class definition is shown next and can de downloaded: :download:`queue.py <../examples/queueing/queue.py>`.
+The ``Queue`` class definition is shown next and can de downloaded: :download:`queue.py <../../examples/queueing/queue.py>`.
 
-.. literalinclude:: ../examples/queueing/queue.py
+.. literalinclude:: ../../examples/queueing/queue.py
 
 The next atomic model is the ``Processor`` class.
 It merely receives an incoming event and starts processing it.
@@ -95,32 +95,32 @@ We need to send out two events: one containing the job that was processed, and o
 For this, two different ports are used.
 Note that the definition of the processor would not be this simple in case there was no queue before it.
 We can now make the assumption that when we get an event, we are already idle and therefore don't need to queue new incoming events first.
-The ``Processor`` class definition is shown next and can de downloaded: :download:`processor.py <../examples/queueing/processor.py>`.
+The ``Processor`` class definition is shown next and can de downloaded: :download:`processor.py <../../examples/queueing/processor.py>`.
 
-.. literalinclude:: ../examples/queueing/processor.py
+.. literalinclude:: ../../examples/queueing/processor.py
 
 The processor finally sends the task to the ``Collector`` class.
 The collector is an artificial component that is not present in the system being modeled; it is only used for statistics gathering.
 For each job, it stores the time in the queue.
-The ``Collector`` class definition is shown next and can de downloaded: :download:`collector.py <../examples/queueing/collector.py>`.
+The ``Collector`` class definition is shown next and can de downloaded: :download:`collector.py <../../examples/queueing/collector.py>`.
 
-.. literalinclude:: ../examples/queueing/collector.py
+.. literalinclude:: ../../examples/queueing/collector.py
 
 With all atomic examples defined, we only have to couple them together in a coupled model: the ``System``.
 In this system, we instantiate a generator, queue, and collector, as well as a variable number of processors.
 The number of processors is variable, but is still static during simulation.
 The couplings also depend on the number of processors, as each processor is connected to the queue and the collector.
-The ``System`` class definition is shown next and can de downloaded: :download:`system.py <../examples/queueing/system.py>`.
+The ``System`` class definition is shown next and can de downloaded: :download:`system.py <../../examples/queueing/system.py>`.
 
-.. literalinclude:: ../examples/queueing/system.py
+.. literalinclude:: ../../examples/queueing/system.py
 
 Now that our DEVS model is completely specified, we can start running simulations on it.
 Simulation requires an *experiment* file though, which initializes the model with parameters and defines the simulation configuration.
 The experiment writes out the raw queueing times to a Comma Seperated Value (CSV) file.
 An experiment file often contains some configuration of the simulation tool, which differs for each tool.
-The experiment file is shown next and can de downloaded: :download:`experiment.py <../examples/queueing/experiment.py>`.
+The experiment file is shown next and can de downloaded: :download:`experiment.py <../../examples/queueing/experiment.py>`.
 
-.. literalinclude:: ../examples/queueing/experiment.py
+.. literalinclude:: ../../examples/queueing/experiment.py
 
 Performance Analysis
 --------------------

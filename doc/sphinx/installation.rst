@@ -24,7 +24,7 @@ Dependencies
 
 The following dependencies are mandatory:
 
-* python 2.7
+* Python 2.7 **or** Python 3.6+
 
 For parallel and distributed simulation, the following additional dependencies are required:
 
@@ -34,6 +34,16 @@ For parallel and distributed simulation, the following additional dependencies a
 Installation instructions are given for these two dependencies further in this section.
 
 Realtime simulation using the Tk backend, obviously requires Tk.
+
+Download
+--------
+
+The most up-to-date version of PyPDEVS can be obtained from the git repository::
+
+    git clone https://msdl.uantwerpen.be/git/yentl/PythonPDEVS.git
+
+Alternatively, the latest release can be downloaded via:
+    https://msdl.uantwerpen.be/git/yentl/PythonPDEVS/archive/master.zip
 
 PyPDEVS Installation
 --------------------

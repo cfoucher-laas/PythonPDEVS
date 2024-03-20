@@ -623,6 +623,7 @@ class SimulatorConfiguration(object):
         if not isinstance(ports, dict):
             raise DEVSException("Realtime input port references should be a dictionary")
         self.simulator.realtime_port_references = ports
+        self.simulator.accept_external_input = True
 
     def setModelState(self, model, new_state):
         """
