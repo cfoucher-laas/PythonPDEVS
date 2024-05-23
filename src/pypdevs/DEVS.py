@@ -896,7 +896,7 @@ class ExternalWrapper(AtomicDEVS):
 
     def extTransition(self, inputs):
         # Fake object is created with a single fake port, so unpack that
-        self.f(self.my_input.values()[0])
+        self.f(list(self.my_input.values())[0])
 
 def directConnect(component_set, listeners):
     """

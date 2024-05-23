@@ -1068,9 +1068,9 @@ class BaseSimulator(Solver):
         current_realtime_time = (time.time() - self.rt_zerotime)
         scaled_realtime_time = current_realtime_time / self.realtime_scale
         self.asynchronous_generator.checkInterrupt(scaled_realtime_time)
-        next_sim_time = min(self.model.time_next[0], 
-                          self.termination_time[0], 
-                          self.asynchronous_generator.getNextTime())
+        next_sim_time = min(self.model.time_next[0],
+                            self.termination_time[0],
+                            self.asynchronous_generator.getNextTime())
         # Scaled realtime
         next_sim_time *= self.realtime_scale
 

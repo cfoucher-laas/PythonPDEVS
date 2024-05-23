@@ -73,7 +73,7 @@ class AsynchronousComboGenerator(object):
                         raise DEVSException(
                             "Inproperly formatted input in file: %s" % event)
                     self.next_scheduled = float(event[0])
-                    self.file_event = event[1][:-1]
+                    self.file_event = event[1].rstrip()
 
     def getNextTime(self):
         """
