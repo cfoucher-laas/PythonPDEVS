@@ -82,7 +82,7 @@ def runLocal(name):
     removeFile(outfile)
     import subprocess
     try:
-        proc = subprocess.Popen("python testmodels/experiment.py " + str(name) + "_local >> /dev/null", shell=True)
+        proc = subprocess.Popen("python testmodels/experiment.py " + str(name) + "_local", shell=True)
         proc.wait()
     except:
         import sys

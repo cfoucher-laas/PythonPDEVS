@@ -570,17 +570,22 @@ class Controller(BaseSimulator):
         """
         self.threading_backend.step()
 
-    def realtimeInterrupt(self, string):
+    def realtimeInterrupt(self, string: str, event=None):
         """
         Create an interrupt from other Python code instead of using stdin or the file
 
-        :param string: the value to inject
+        :param string: the value to inject, as `portname value`
+        :param event: optional event/object to pass onto the port. Will only be used if the string is a single portname
         """
-        self.threading_backend.interrupt(string)
+        action = string.split(" ", 1)
+        if len(action) > 1:
+            event = action[1]
+        self.threading_backend.interrupt(action[0], event)
 
     def stateChange(self, model_id, variable, value):
         """
-        Notification function for when a variable's value is altered. It will notify the node that is responsible for simulation of this model AND also notify the tracers of the event.
+        Notification function for when a variable's value is altered. It will notify the node that is responsible for
+        simulation of this model AND also notify the tracers of the event.
 
         :param model_id: the model_id of the model whose variable was changed
         :param variable: the name of the variable that was changed (as a string)

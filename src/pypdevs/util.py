@@ -125,7 +125,9 @@ def easyCommand(function, args):
         if i != 0:
             text += ", "
         if isinstance(args[i], str):
-            args[i] = '"%s"' % args[i][1:-1].replace('"', "\\\"").replace("'", "\\'")
+            if len(args[i]) > 0 and args[i][0] == args[i][-1] and args[i][0] in '"\'':
+                s = args[i][0]
+                args[i] = (s + '%s' + s) % args[i][1:-1].replace('"', "\\\"").replace("'", "\\'")
         text += str(args[i])
     text += ")"
     return text

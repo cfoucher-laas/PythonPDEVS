@@ -49,20 +49,24 @@ class ThreadingBackend(object):
         """
         self.subsystem.wait(time, func)
 
-    def interrupt(self, value):
+    def interrupt(self, pname, value):
         """
         Interrupt a running wait call, overwriting any previous interrupts.
 
+        :param pname: the port on which the interrupt happens
         :param value: the value that interrupts
         """
-        self.interrupted_value = value
+        self.interrupted_value = pname, value
         self.subsystem.interrupt()
 
     def setInterrupt(self, value):
         """
-        Sets the value of the interrupt. This should not be used manually and is only required to prevent the asynchronous combo generator from making *interrrupt()* calls.
+        Sets the value of the interrupt.
+        This should not be used manually and is only required to prevent the asynchronous combo generator
+        from making *interrrupt()* calls.
         
-        :param value: value with which the interrupt variable should be set
+        :param value:   value with which the interrupt variable should be set;
+                        should be a space-separated string of `portname event`.
         """
         with self.value_lock:
             if self.interrupted_value is None:

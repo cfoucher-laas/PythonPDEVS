@@ -656,7 +656,7 @@ class Simulator(object):
         self.fillchar = "=" if len(locations) > 1 else "#"
         gvt = 0.0
         while 1:
-            # Several dirty checks for whether or not the simulation is done, if it is finished no more calls should be needed
+            # Several dirty checks for whether the simulation is done, if it is finished no more calls should be needed
             # Keep doing this until the main thread exits, this should be a thread!
             if self.checkpoint_interval > -1:
                 # Don't use an event while checkpointing, as this is unpicklable
