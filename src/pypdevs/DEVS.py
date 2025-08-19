@@ -20,6 +20,7 @@ Classes and tools for DEVS model specification
 from pypdevs.logger import debug, warn, info, error
 from pypdevs.util import *
 import pypdevs.accurate_time as time
+from pypdevs.schedulers.schedulerAH import *
 
 class BaseDEVS(object):
     """
