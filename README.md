@@ -3,8 +3,7 @@ Installation
 
 You can easily install PythonPDEVS with the following command.
 ```sh
-cd src
-python setup.py install --user
+pip install --user .
 ```
 
 Performance
